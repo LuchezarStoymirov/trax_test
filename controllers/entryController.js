@@ -19,7 +19,7 @@ export const createEntry = async (req, res) => {
             return res.status(400).json({ error: "Brand, model, registration plate, and year are required" });
         }
 
-        const id = nanoid(5);
+        const id = nanoid(15);
         const db = await openDb();
         
         await db.run(

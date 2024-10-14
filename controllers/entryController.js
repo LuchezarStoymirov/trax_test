@@ -13,15 +13,21 @@ export const getEntries = async (req, res) => {
 
 export const createEntry = async (req, res) => {
     try {
-        const { brand, model } = req.body;
-        if (!brand || !model) {
-            return res.status(400).json({ error: "Brand and model are required" });
+        const { brand, model, registration_plate, year } = req.body;
+
+        if (!brand || !model || !registration_plate || !year) {
+            return res.status(400).json({ error: "Brand, model, registration plate, and year are required" });
         }
 
         const id = nanoid(5);
         const db = await openDb();
-        await db.run('INSERT INTO entries (id, brand, model) VALUES (?, ?, ?)', [id, brand, model]);
-        res.status(201).json({ id, brand, model });
+        
+        await db.run(
+            'INSERT INTO entries (id, brand, model, registration_plate, year_of_manufacturing) VALUES (?, ?, ?, ?, ?)',
+            [id, brand, model, registration_plate, year]
+        );
+
+        res.status(201).json({ id, brand, model, registration_plate, year });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

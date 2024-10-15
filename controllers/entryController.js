@@ -5,7 +5,6 @@ export const getEntries = async (req, res) => {
     try {
         const db = await openDb();
         const entries = await db.all('SELECT * FROM entries');
-
         res.status(200).json(entries);
     } catch (error) {
         res.status(500).json({ error: error.message });
